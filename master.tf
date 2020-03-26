@@ -1,14 +1,11 @@
-locals {
-  ipset_name          = "IPSet"
-  ipset_key           = "ipset.txt"
-  threatintelset_name = "ThreatIntelSet"
-  threatintelset_key  = "threatintelset.txt"
-}
-
 resource "aws_s3_bucket" "bucket" {
   count  = var.is_guardduty_master && (var.has_ipset || var.has_threatintelset) ? 1 : 0
   bucket = var.bucket_name
-  acl    = "private"
+  versioning {
+    enabled = true
+  }
+  policy        = data.aws_iam_policy_document.s3_policy.json
+  force_destroy = var.force_destroy
 }
 
 resource "aws_s3_bucket_object" "ipset" {

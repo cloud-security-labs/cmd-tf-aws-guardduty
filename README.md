@@ -22,7 +22,7 @@ Amazon GuardDuty is a continuous security monitoring service that analyses and p
 
 This repo contains Terraform modules for configuring AWS GuardDuty and managing IPSets and ThreadSets used by GuardDuty.
 
-Terraform >= 0.12.0 is required for this module.
+Terraform >= 0.12.20 is required for this module.
 
 ## AWS GuardDuty - Overview Diagram
 
@@ -49,6 +49,7 @@ The below outlines the current parameters and defaults.
 |bucket_name|Name of the S3 bucket to use|string|""|Yes|
 |is_guardduty_master|Whether the account is a master account|bool|false|No|
 |is_guardduty_member|Whether the account is a member account|bool|false|No|
+|force_destroy|(Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable.|bool|false|No|
 |detector_enable|Enable monitoring and feedback reporting|bool|true|No|
 |has_ipset|Whether to include IPSet|bool|false|No|
 |has_threatintelset|Whether to include ThreatIntelSet|bool|false|No|
@@ -76,27 +77,27 @@ A GuardDuty instance configured as a Master that invites a list of members:
 
 ```tf
 variable "member_account_id" {}
-variable "member_email" {}
+variable "member_email_id" {}
 
 module "guardduty" {
-  source = "git@github.com:cmdlabs/terraform-aws-guardduty.git"
-  
+  source = "https://github.com/cmdlabs/terraform-aws-guardduty.git"
+
   bucket_name = "s3-audit-someclient-guardduty"
 
-  detector_enable = true
+  detector_enable     = true
   is_guardduty_master = true
-  has_ipset = true
-  has_threatintelset = true
+  has_ipset           = true
+  has_threatintelset  = true
 
   ipset_activate = true
-  ipset_format = "TXT"
+  ipset_format   = "TXT"
   ipset_iplist = [
     "1.1.1.1",
     "2.2.2.2",
   ]
 
   threatintelset_activate = true
-  threatintelset_format = "TXT"
+  threatintelset_format   = "TXT"
   threatintelset_iplist = [
     "3.3.3.3",
     "4.4.4.4",
@@ -104,7 +105,7 @@ module "guardduty" {
 
   member_list = [{
     account_id   = var.member_account_id
-    member_email = var.member_email
+    member_email = var.member_email_id
     invite       = true
   }]
 }
@@ -113,7 +114,7 @@ module "guardduty" {
 To apply that:
 
 ```text
-▶ TF_VAR_member_account_id=xxxxxxxxxxxx TF_VAR_member_email=alex@somedomain.com terraform apply
+▶ TF_VAR_member_account_id=xxxxxxxxxxxx TF_VAR_member_email_id=alex@somedomain.com terraform apply
 ```
 
 #### GuardDuty Member
@@ -124,10 +125,10 @@ Then a GuardDuty Member account can accept the invitation from the Master accoun
 variable "master_account_id" {}
 
 module "guardduty" {
-  source = "git@github.com:cmdlabs/terraform-aws-guardduty.git"
-  detector_enable = true
+  source = "https://github.com/cmdlabs/terraform-aws-guardduty.git"
+  detector_enable     = true
   is_guardduty_member = true
-  master_account_id = var.master_account_id
+  master_account_id   = var.master_account_id
 }
 ```
 
