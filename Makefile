@@ -32,22 +32,20 @@ destroy: .env  $(PROFILE_REQUIRED) init workspace
 	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform destroy -auto-approve'
 PHONY: destroy
 
+tag:
+	git tag -a $(RELEASE_VERSION) -m ''
+	git push origin $(RELEASE_VERSION)
+PHONY: tag
 
-
-# tag:
-# 	git tag -a $(RELEASE_VERSION) -m ''
-# 	git push origin $(RELEASE_VERSION)
-# PHONY: tag
-
-# publish: .env
-# 	docker-compose run --rm envvars ensure --tags publish
-# 	git fetch --all
-# 	git remote add github https://$(GIT_USERNAME):$(GIT_PASSWORD)@github.com/cmdlabs/$(CI_PROJECT_NAME)
-# 	git checkout master
-# 	git pull origin master
-# 	git push --follow-tags github master
-# 	docker-compose run --rm terraform-utils curl -X POST -H 'Content-type: application/json' --data '{"text":"A new commit has been published to Github\nProject: $(CI_PROJECT_NAME)\nRef: $(CI_COMMIT_REF_NAME)\nDiff: https://github.com/cmdlabs/$(CI_PROJECT_NAME)/commit/$(CI_COMMIT_SHA)"}' $(GIT_PUBLISHING_WEBHOOK)
-# PHONY: publish
+publish: .env
+	docker-compose run --rm envvars ensure --tags publish
+	git fetch --all
+	git remote add github https://$(GIT_USERNAME):$(GIT_PASSWORD)@github.com/cmdlabs/$(CI_PROJECT_NAME)
+	git checkout master
+	git pull origin master
+	git push --follow-tags github master
+	docker-compose run --rm terraform-utils curl -X POST -H 'Content-type: application/json' --data '{"text":"A new commit has been published to Github\nProject: $(CI_PROJECT_NAME)\nRef: $(CI_COMMIT_REF_NAME)\nDiff: https://github.com/cmdlabs/$(CI_PROJECT_NAME)/commit/$(CI_COMMIT_SHA)"}' $(GIT_PUBLISHING_WEBHOOK)
+PHONY: publish
 
 profile: .env
 	docker-compose run --rm envvars ensure --tags profile
