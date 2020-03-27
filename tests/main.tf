@@ -1,4 +1,4 @@
-module "guardduty-master" {
+module "guardduty" {
   source = "../"
 
   master_account_id = var.master_account_id
@@ -26,7 +26,7 @@ module "guardduty-master" {
 
 output "detector_id" {
   description = "The ID of the GuardDuty detector"
-  value       = module.guardduty-master.detector_id
+  value       = module.guardduty.detector_id
 }
 
 # --- values from gitlab variables
