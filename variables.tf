@@ -28,24 +28,6 @@ variable "detector_enable" {
   default     = true
 }
 
-variable "has_ipset" {
-  type        = bool
-  description = "Whether to include IPSet"
-  default     = false
-}
-
-variable "has_threatintelset" {
-  type        = bool
-  description = "Whether to include ThreatIntelSet"
-  default     = false
-}
-
-variable "ipset_activate" {
-  type        = bool
-  description = "Specifies whether GuardDuty is to start using the uploaded IPSet"
-  default     = true
-}
-
 variable "ipset_format" {
   type        = string
   description = "The format of the file that contains the IPSet"
@@ -56,12 +38,6 @@ variable "ipset_iplist" {
   type        = list
   description = "IPSet list of trusted IP addresses"
   default     = []
-}
-
-variable "threatintelset_activate" {
-  type        = bool
-  description = "Specifies whether GuardDuty is to start using the uploaded ThreatIntelSet"
-  default     = true
 }
 
 variable "threatintelset_format" {

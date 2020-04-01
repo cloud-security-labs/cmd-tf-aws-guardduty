@@ -10,7 +10,7 @@ services:
       - .:/work
       - ~/.aws:/root/.aws
       - ~/.ssh:/root/.ssh
-    working_dir: /work
+    working_dir: /work/$SUBFOLDER
 
   envvars:
     image: flemay/envvars:0.0.6

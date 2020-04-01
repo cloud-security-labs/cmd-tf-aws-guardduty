@@ -8,12 +8,8 @@ locals {
       detector_enable         = true
       is_guardduty_master     = true
       is_guardduty_member     = false
-      has_ipset               = true
-      has_threatintelset      = true
-      ipset_activate          = true
       ipset_format            = "TXT"
       ipset_iplist            = ["1.1.1.1", "2.2.2.2", ]
-      threatintelset_activate = true
       threatintelset_format   = "TXT"
       threatintelset_iplist   = ["3.3.3.3", "4.4.4.4", ]
       member_list = [{
@@ -30,12 +26,8 @@ locals {
       detector_enable         = true
       is_guardduty_master     = false
       is_guardduty_member     = true
-      has_ipset               = false
-      has_threatintelset      = false
-      ipset_activate          = false
       ipset_format            = ""
       ipset_iplist            = []
-      threatintelset_activate = false
       threatintelset_format   = ""
       threatintelset_iplist   = []
       member_list             = []

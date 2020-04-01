@@ -17,19 +17,19 @@ formatCheck: .env
 PHONY: formatCheck
 
 init: .env 
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; terraform init'
+	docker-compose run --rm terraform-utils sh -c 'terraform init'
 PHONY: init
 
 plan: .env  $(PROFILE_REQUIRED) init workspace
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform plan'
+	docker-compose run --rm terraform-utils sh -c 'TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform plan'
 PHONY: plan
 
 apply: .env  $(PROFILE_REQUIRED) init workspace
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform apply -auto-approve'
+	docker-compose run --rm terraform-utils sh -c 'TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform apply -auto-approve'
 PHONY: apply
 
 destroy: .env  $(PROFILE_REQUIRED) init workspace
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform destroy -auto-approve'
+	docker-compose run --rm terraform-utils sh -c 'TF_VAR_master_account_id=$(MASTER_ACCOUNT_ID) TF_VAR_member_account_id=$(MEMBER_ACCOUNT_ID) TF_VAR_member_email_id=$(MEMBER_EMAIL_ID) terraform destroy -auto-approve'
 PHONY: destroy
 
 tag:
@@ -56,8 +56,8 @@ profile: .env
 
 workspace: .env
 	docker-compose run --rm envvars ensure --tags terraform
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; terraform workspace new $(TERRAFORM_WORKSPACE); true' 
-	docker-compose run --rm terraform-utils sh -c 'cd $${SUBFOLDER}; terraform workspace select $(TERRAFORM_WORKSPACE)' 
+	docker-compose run --rm terraform-utils sh -c 'terraform workspace new $(TERRAFORM_WORKSPACE); true' 
+	docker-compose run --rm terraform-utils sh -c 'terraform workspace select $(TERRAFORM_WORKSPACE)' 
 .PHONY: workspace
 
 .env:
