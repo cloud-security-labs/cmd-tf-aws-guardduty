@@ -23,6 +23,7 @@ module "guardduty" {
   force_destroy           = local.workspace["force_destroy"]
   detector_enable         = local.workspace["detector_enable"]
   is_guardduty_master     = local.workspace["is_guardduty_master"]
+  is_guardduty_member     = local.workspace["is_guardduty_member"]
   has_ipset               = local.workspace["has_ipset"]
   has_threatintelset      = local.workspace["has_threatintelset"]
   ipset_activate          = local.workspace["ipset_activate"]

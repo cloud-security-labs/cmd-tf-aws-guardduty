@@ -7,6 +7,7 @@ locals {
       force_destroy           = true
       detector_enable         = true
       is_guardduty_master     = true
+      is_guardduty_member     = false
       has_ipset               = true
       has_threatintelset      = true
       ipset_activate          = true
@@ -22,10 +23,22 @@ locals {
       }]
     },
     sandpit = {
-      aws_profile         = "cmdlabtf-sandpit"
-      region              = "ap-southeast-2"
-      detector_enable     = true
-      is_guardduty_member = true
+      aws_profile             = "cmdlabtf-sandpit"
+      region                  = "ap-southeast-2"
+      bucket_name             = ""
+      force_destroy           = true
+      detector_enable         = true
+      is_guardduty_master     = false
+      is_guardduty_member     = true
+      has_ipset               = false
+      has_threatintelset      = false
+      ipset_activate          = false
+      ipset_format            = ""
+      ipset_iplist            = []
+      threatintelset_activate = false
+      threatintelset_format   = ""
+      threatintelset_iplist   = []
+      member_list             = []
     }
   }
   workspace = local.env[terraform.workspace]
