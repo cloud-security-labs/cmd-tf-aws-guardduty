@@ -8,106 +8,83 @@ stages:
   - destroy-master
   - publish
 
+variables:
+  AWS_DEFAULT_REGION: ap-southeast-2
+  SUBFOLDER: tests
+  AWS_ROLE_NAME: gitlab_runner
+
 format:
   stage: format
   tags:
     - cmd
   script:
     - make formatCheck
-
     
 plan-master:
   stage: plan-master
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: master
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MASTER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-master
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make plan
-  tags: ["cmd"]
+  tags:
+    - cmd
 
 apply-master:
   stage: apply-master
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: master
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MASTER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-master
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make apply
-  tags: ["cmd"]
+  tags:
+    - cmd
 
 plan-sandpit:
   stage: plan-member
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: sandpit
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MEMBER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-sandpit
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make plan
-  tags: ["cmd"]
-
+  tags:
+    - cmd
 
 apply-sandpit:
   stage: apply-member
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: sandpit
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MEMBER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-sandpit
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make apply
-  tags: ["cmd"]
-
+  tags:
+    - cmd
 
 destroy-sandpit:
   stage: destroy-member
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: sandpit
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MEMBER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-sandpit
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make destroy
-  tags: ["cmd"]
-
+  tags:
+    - cmd
 
 destroy-master:
   stage: destroy-master
-  environment:
-    name: cmdlab-tf-guardduty
   variables:
     TERRAFORM_WORKSPACE: master
-    AWS_ROLE_NAME: gitlab_runner
     AWS_ACCOUNT_ID: $MASTER_ACCOUNT_ID
     AWS_PROFILE_NAME: cmdlabtf-master
-    AWS_DEFAULT_REGION: ap-southeast-2
-    SUBFOLDER: tests
   script:
     - make destroy
-  tags: ["cmd"]
+  tags:
+    - cmd
 
 publish:
   stage: publish
