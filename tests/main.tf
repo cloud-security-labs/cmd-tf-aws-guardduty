@@ -19,16 +19,16 @@ module "guardduty" {
 
   master_account_id = var.master_account_id
 
-  bucket_name             = local.workspace["bucket_name"]
-  force_destroy           = local.workspace["force_destroy"]
-  detector_enable         = local.workspace["detector_enable"]
-  is_guardduty_master     = local.workspace["is_guardduty_master"]
-  is_guardduty_member     = local.workspace["is_guardduty_member"]
-  ipset_format            = local.workspace["ipset_format"]
-  ipset_iplist            = local.workspace["ipset_iplist"]
-  threatintelset_format   = local.workspace["threatintelset_format"]
-  threatintelset_iplist   = local.workspace["threatintelset_iplist"]
-  member_list             = local.workspace["member_list"]
+  bucket_name           = local.workspace["bucket_name"]
+  force_destroy         = local.workspace["force_destroy"]
+  detector_enable       = local.workspace["detector_enable"]
+  is_guardduty_master   = local.workspace["is_guardduty_master"]
+  is_guardduty_member   = local.workspace["is_guardduty_member"]
+  ipset_format          = local.workspace["ipset_format"]
+  ipset_iplist          = local.workspace["ipset_iplist"]
+  threatintelset_format = local.workspace["threatintelset_format"]
+  threatintelset_iplist = local.workspace["threatintelset_iplist"]
+  member_list           = local.workspace["member_list"]
 
 }
 
