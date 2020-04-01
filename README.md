@@ -48,12 +48,8 @@ The below outlines the current parameters and defaults.
 |is_guardduty_member|Whether the account is a member account|bool|false|No|
 |force_destroy|(Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable.|bool|false|No|
 |detector_enable|Enable monitoring and feedback reporting|bool|true|No|
-|has_ipset|Whether to include IPSet|bool|false|No|
-|has_threatintelset|Whether to include ThreatIntelSet|bool|false|No|
-|ipset_activate|Specifies whether GuardDuty is to start using the uploaded IPSet|bool|true|No|
 |ipset_format|The format of the file that contains the IPSet|string|TXT|No|
 |ipset_iplist|IPSet list of trusted IP addresses|list|[]|No|
-|threatintelset_activate|Specifies whether GuardDuty is to start using the uploaded ThreatIntelSet|bool|true|No|
 |threatintelset_format|The format of the file that contains the ThreatIntelSet|string|TXT|No|
 |threatintelset_iplist|ThreatIntelSet list of known malicious IP addresses|list|[]|No|
 |master_account_id|Account ID for Guard Duty Master. Required if is_guardduty_member|string|""|Yes|
