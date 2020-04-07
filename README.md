@@ -11,9 +11,6 @@
     * [Resources docs](#resources-docs)
     * [Inputs](#inputs)
     * [Outputs](#outputs)
-    * [Examples](#examples)
-        - [GuardDuty Master](#guardduty-master)
-        - [GuardDuty Member](#guardduty-member)
 4. [License](#license)
 
 ## Overview
@@ -22,7 +19,7 @@ Amazon GuardDuty is a continuous security monitoring service that analyses and p
 
 This repo contains Terraform modules for configuring AWS GuardDuty and managing IPSets and ThreadSets used by GuardDuty.
 
-Terraform >= 0.12.0 is required for this module.
+Terraform >= 0.12.20 is required for this module.
 
 ## AWS GuardDuty - Overview Diagram
 
@@ -49,13 +46,10 @@ The below outlines the current parameters and defaults.
 |bucket_name|Name of the S3 bucket to use|string|""|Yes|
 |is_guardduty_master|Whether the account is a master account|bool|false|No|
 |is_guardduty_member|Whether the account is a member account|bool|false|No|
+|force_destroy|(Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable.|bool|false|No|
 |detector_enable|Enable monitoring and feedback reporting|bool|true|No|
-|has_ipset|Whether to include IPSet|bool|false|No|
-|has_threatintelset|Whether to include ThreatIntelSet|bool|false|No|
-|ipset_activate|Specifies whether GuardDuty is to start using the uploaded IPSet|bool|true|No|
 |ipset_format|The format of the file that contains the IPSet|string|TXT|No|
 |ipset_iplist|IPSet list of trusted IP addresses|list|[]|No|
-|threatintelset_activate|Specifies whether GuardDuty is to start using the uploaded ThreatIntelSet|bool|true|No|
 |threatintelset_format|The format of the file that contains the ThreatIntelSet|string|TXT|No|
 |threatintelset_iplist|ThreatIntelSet list of known malicious IP addresses|list|[]|No|
 |master_account_id|Account ID for Guard Duty Master. Required if is_guardduty_member|string|""|Yes|
@@ -67,75 +61,6 @@ The below outlines the current parameters and defaults.
 |------------|---------------------|
 |detector_id|The ID of the GuardDuty detector|
 |account_id|The AWS account ID of the GuardDuty detector|
-
-### Examples
-
-#### GuardDuty Master
-
-A GuardDuty instance configured as a Master that invites a list of members:
-
-```tf
-variable "member_account_id" {}
-variable "member_email" {}
-
-module "guardduty" {
-  source = "git@github.com:cmdlabs/terraform-aws-guardduty.git"
-  
-  bucket_name = "s3-audit-someclient-guardduty"
-
-  detector_enable = true
-  is_guardduty_master = true
-  has_ipset = true
-  has_threatintelset = true
-
-  ipset_activate = true
-  ipset_format = "TXT"
-  ipset_iplist = [
-    "1.1.1.1",
-    "2.2.2.2",
-  ]
-
-  threatintelset_activate = true
-  threatintelset_format = "TXT"
-  threatintelset_iplist = [
-    "3.3.3.3",
-    "4.4.4.4",
-  ]
-
-  member_list = [{
-    account_id   = var.member_account_id
-    member_email = var.member_email
-    invite       = true
-  }]
-}
-```
-
-To apply that:
-
-```text
-▶ TF_VAR_member_account_id=xxxxxxxxxxxx TF_VAR_member_email=alex@somedomain.com terraform apply
-```
-
-#### GuardDuty Member
-
-Then a GuardDuty Member account can accept the invitation from the Master account using:
-
-```tf
-variable "master_account_id" {}
-
-module "guardduty" {
-  source = "git@github.com:cmdlabs/terraform-aws-guardduty.git"
-  detector_enable = true
-  is_guardduty_member = true
-  master_account_id = var.master_account_id
-}
-```
-
-To apply that:
-
-```text
-▶ TF_VAR_master_account_id=xxxxxxxxxxxx terraform apply
-```
 
 ## License
 

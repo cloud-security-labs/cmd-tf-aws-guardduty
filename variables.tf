@@ -16,27 +16,15 @@ variable "is_guardduty_member" {
   default     = false
 }
 
+variable "force_destroy" {
+  type        = bool
+  description = "(Optional) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
+  default     = false
+}
+
 variable "detector_enable" {
   type        = bool
   description = "Enable monitoring and feedback reporting"
-  default     = true
-}
-
-variable "has_ipset" {
-  type        = bool
-  description = "Whether to include IPSet"
-  default     = false
-}
-
-variable "has_threatintelset" {
-  type        = bool
-  description = "Whether to include ThreatIntelSet"
-  default     = false
-}
-
-variable "ipset_activate" {
-  type        = bool
-  description = "Specifies whether GuardDuty is to start using the uploaded IPSet"
   default     = true
 }
 
@@ -50,12 +38,6 @@ variable "ipset_iplist" {
   type        = list
   description = "IPSet list of trusted IP addresses"
   default     = []
-}
-
-variable "threatintelset_activate" {
-  type        = bool
-  description = "Specifies whether GuardDuty is to start using the uploaded ThreatIntelSet"
-  default     = true
 }
 
 variable "threatintelset_format" {
@@ -85,3 +67,6 @@ variable "member_list" {
   description = "The list of member accounts to be added. Each member list need to have values of account_id, member_email and invite boolean"
   default     = []
 }
+
+
+
